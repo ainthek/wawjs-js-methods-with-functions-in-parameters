@@ -1,20 +1,17 @@
 {
-  "name": "wawjs-mdn",
+  "name": "wawjs-js-methods-with-functions-in-parameters",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "prettier": "^1.14.3",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
-    "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.3.3"
+    "request-promise-native": "^1.0.5"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node ./index.js"
+    "start": "node ./index.js | tee ./output.txt"
   },
-  "author": "timzatko",
+  "author": "marcus",
   "license": "ISC",
   "description": ""
 }
