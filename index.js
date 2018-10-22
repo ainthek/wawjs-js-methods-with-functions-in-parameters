@@ -63,30 +63,22 @@ const save = (s) => console.log(s);
 
 // takto by to vyzeralo bez arrows(ani diva svina nevie ako alg funguje)
 // ale stale je to o tom ze popisujem ako to robi
-// download(`${BASE}/bm/docs/Web/JavaScript/Reference/Methods_Index`)
-//   .then(extractLinks)
-//   .then(normalizeLinks(BASE))
-//   .then(links => {
-//     links.map(link =>
-//       download(link)
-//       .then(extractSignature)
-//       .then(checkParams)
-//       .then(matched => matched && save(matched.name))
-//     );
-//   });
+download(`${BASE}/bm/docs/Web/JavaScript/Reference/Methods_Index`)
+  .then(extractLinks)
+  .then((o)=>console.log(JSON.stringify(o,null,2)))
 
 // C) prepisem to tak aby bolo jasne co program robi a nie ako to robi
 // toto je samozrejme extrem,
 // ale najdolezitejsia je ta cast ako ich odfiltrujes,
 // zvysok sa docitam
 
-apiList()
-  .then(signatures)
-  .then(signatures =>
-    signatures.filter(({ params }) =>
-      params.some(looksLikeFunction)))
-  .then(sort)
-  .then(print);
+// apiList()
+//   .then(signatures)
+//   .then(signatures =>
+//     signatures.filter(({ params }) =>
+//       params.some(looksLikeFunction)))
+//   .then(sort)
+//   .then(print);
 
 // D) bordel k tomu zvyzku hore, ale gro funkcii je tam navrchu
 function apiList() {
