@@ -55,7 +55,6 @@ class ExtractLinks extends Transform {
     cb();
   }
 }
-
 const normalizeLinks = (base) => new Transform({
   transform(o, e, cb) {
     this.push({ ...o, link: normalizeLink(base, o.attribs.href) });
@@ -111,9 +110,28 @@ class Save extends Writable {
 }
 // ---------------------------------------------------------------
 // final algorithm
+// download(`${BASE}/bm/docs/Web/JavaScript/Reference/Methods_Index`)
+//   .pipe(new ExtractLinks()) //streams objects { name, attribs }
+//   .pipe(normalizeLinks(BASE)) // { name, attribs, link }
+//   .pipe(new Download()) // { name, attribs, link, data }
+//   .pipe(new ExtractSignature()) // { name, attribs, link, data, signature }
+//   .pipe(new CheckParams()) // // filter, { name, attribs, link, data, signature }
+//   .pipe(new Save(o => o.signature.name));
+
+
+function map(fn) {
+  return new Transform({
+    transform(o, e, cb) {
+      this.push(fn(o));
+      cb();
+    },
+    objectMode: true
+  });
+}
+
 download(`${BASE}/bm/docs/Web/JavaScript/Reference/Methods_Index`)
   .pipe(new ExtractLinks()) //streams objects { name, attribs }
-  .pipe(normalizeLinks(BASE)) // { name, attribs, link }
+  .pipe(map((o) => ({ ...o, link: normalizeLink(BASE, o.attribs.href) }))) // { name, attribs, link }
   .pipe(new Download()) // { name, attribs, link, data }
   .pipe(new ExtractSignature()) // { name, attribs, link, data, signature }
   .pipe(new CheckParams()) // // filter, { name, attribs, link, data, signature }
