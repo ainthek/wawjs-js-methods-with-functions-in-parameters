@@ -33,10 +33,11 @@ const checkParams = (signature) =>
   signature.params.some(looksLikeFunction) ? signature : null;
 
 const looksLikeFunction = (param) => [
-   	/^function/i,
-   	/Specifies a function/,
-   	/^A function/i
-   	]
+    /^function/i,
+    /Specifies a function/,
+    /^A function/i,
+    /^If a function/
+    ]
   .some(re => re.test(param))
 
 const save = (s) => console.log(s);
@@ -92,7 +93,6 @@ apiList()
 function apiList() {
   return download(`${BASE}/bm/docs/Web/JavaScript/Reference/Methods_Index`)
     .then(extractLinks)
-    //.then(links => links.filter((a, i) => i < 10))
     .then(normalizeLinks(BASE))
     .then(links => links.map(download))
     .then(docs => Promise.all(docs))
@@ -118,3 +118,14 @@ function filter(byWhat) {
 function print(signatures) {
   signatures.forEach(({ name }) => console.log(name));
 }
+
+function tests() {
+
+  download("https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap")
+    .then(body => [extractSignature(body)])
+    .then(signatures =>
+      signatures.filter(({ params }) =>
+        params.some(looksLikeFunction)))
+    .then(console.log)
+}
+//tests();
